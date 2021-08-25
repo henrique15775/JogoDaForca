@@ -1,5 +1,4 @@
 package jogodaforca;
-
 import java.io.File;
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Arrays;
@@ -85,7 +84,8 @@ public class JogoDaForca {
     			
     			}
     		this.letras_reveladas[this.count_position]  = letra.toUpperCase();
-    		
+    		//System.out.println(Arrays.toString(letras_reveladas));
+			//this.palavra = this.palavra.replaceAll(letra,"X");
 			this.count_position = (this.count_position + 1);
     		}
 		}else {
@@ -156,9 +156,9 @@ public class JogoDaForca {
 
     public String getResultado() {
     	
-    	String result = "Você foi inforcado";
+    	String result = "Você foi enforcado";
 		
-		if(this.acertos > this.erros) {
+		if(this.acertos==this.palavra.length()) {
 			result = "Você ganhou";
 		}
 		
@@ -166,30 +166,3 @@ public class JogoDaForca {
     }
 }
 	
-	
-
-
-/*
-1. Acessar cada letra da palavra:
-String letra;
-for(int i=0 ; i<palavra.length(); i++) {
-letra = palavra.substring(i, i+1); //obtém a letra da posição i
-System.out.println(letra);
-}
-2. Substituir todas as ocorrências da letra por ”-”:
-String palavra2 = palavra1.replace(letra, “-”); //produz nova string
-
-3. Obter um array com cada letra da palavra:
-String[] letras = palavra.split(“”); //separa todas as letras da palavra
-
-4. Clonar uma palavra:
-String palavra1 = “...” ;
-String palavra2 = new String(palavra1); // palavra2 é o clone da palavra1
-
-5. Clonar uma palavra para maiúsculas:
-String palavra1 = “...” ;
-String palavra2 = palavra1.toUpperCase(); //palavra2 recebe nova string maiúscula
-*/
-
-
-// File myObj = new File("filename.txt"); // Specify the filename
