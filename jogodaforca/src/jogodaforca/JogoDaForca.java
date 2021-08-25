@@ -10,19 +10,15 @@ public class JogoDaForca {
 	private final int N;
 	private String[] palavras = new String[4];
 	private String[] dicas = new String[4];
-	private String[] letras_reveladas = new String[26];
+	private String[] letras_reveladas = new String[6];
 	private String palavra;
 	private int indice = -1;
 	private int acertos =0;
 	private int erros = 0;
-	private String[] penalidades = {"pés","pernas","mãos","braços","tronco","cabeça"};
+	private String[] penalidades = {"pÃ©s","pernas","mÃ£os","braÃ§os","tronco","cabeÃ§a"};
 	private String[] arquivos = {"pes.jpg","pernas.jpg","maos.jpg","bracos.jpg","tronco.jpg","cabeca.jpg"};
 	private int count_position;
-	private boolean confirm = false;
 	
-	/*
-	 
-	 */
 	
 	public JogoDaForca(String nomearquivo) {
 		this.N = 0;
@@ -30,32 +26,26 @@ public class JogoDaForca {
         try{
              Scanner arq = new Scanner(ab);
              String linha;
-             //String line[];
              String work;
              String dic;
              int i = 0;
              while (arq.hasNextLine()) {
-
                     linha = arq.nextLine();
-                    System.out.println(linha);
                     String line[] = linha.split(";");
-                    System.out.println(line[0] + " E " + line[1]);
                     work = line[0];
                     dic = line[1];
 
                     this.palavras[i] = work;
-                    this.dicas[i] = dic;
-                    
-                    System.out.println("Palavra:" + work);
-                    System.out.println("Dica:" + this.dicas);
+                    this.dicas[i] = dic;                  
+                                    
                     i += 1;
-
-                }
+                
+            }
                 arq.close();
             } catch(FileNotFoundException e) {
                   System.out.println("An error occurred.");
                   e.printStackTrace();
-                }
+            }
     
 	}
 		
@@ -68,29 +58,36 @@ public class JogoDaForca {
 		
 		this.palavra = this.palavras[this.indice];
 		
-		System.out.println("Palavra da vez -> " + this.palavra);
 	}
 
     public boolean adivinhou(String letra) {
-    	
-    	if (this.palavra.contains(letra)) {
+    
+    	boolean confirm_repeticao = false;
+    	if (this.palavra.contains(letra.toUpperCase())) {
+    		
+    		for(int x = 0; x < this.letras_reveladas.length; x++) {
+				
+				if(letra.toUpperCase().equals(this.letras_reveladas[x])) {
+					System.out.println("Letra repetida!!");
+					
+					confirm_repeticao = true;
+					this.erros += 1;
+					return false;
+					}
+    		}
+    		if(confirm_repeticao == false) {
     		String[] letras = this.palavra.split("");
-    		//System.out.println(palavra.substring(0,1));
     		for(int i=0 ; i<this.palavra.length(); i++) {
-    			//String letra_local = palavra.substring(i, i+1);
-    			//System.out.println(palavra.substring(i,i+1));
-    			if(letras[i].equals(letra)) {
-    				
-    				//System.out.println("Executou");
+    			if(letras[i].equals(letra.toUpperCase())) {
     				
     				this.acertos =(this.acertos + 1);
     				}
     			
     			}
-    		this.letras_reveladas[this.count_position]  = letra;
-    		//System.out.println(Arrays.toString(letras_reveladas));
-			//this.palavra = this.palavra.replaceAll(letra,"X");
+    		this.letras_reveladas[this.count_position]  = letra.toUpperCase();
+    		
 			this.count_position = (this.count_position + 1);
+    		}
 		}else {
 			this.erros += 1;
 			return false;
@@ -99,7 +96,7 @@ public class JogoDaForca {
     	}
 
    public boolean terminou() {
-	   if(this.acertos == this.palavra.length() || this.erros == this.palavra.length()) {
+	   if(this.acertos == this.palavra.length() || this.erros >= 6 ){
 			return true;
 		};
 		return false;
@@ -107,49 +104,35 @@ public class JogoDaForca {
 
    public String getPalavra() {
 		String[] letras_palavra = this.palavra.split("");
-		
+		Boolean confirm = true;
+				
 		for(int i = 0;i<letras_palavra.length;i++) {
-			this.confirm = false;
-			for(int x = 0; x<this.letras_reveladas.length;x++) {
-				if(letras_reveladas[x] != null) {
-				//System.out.println(x);
+			confirm = false;
+			for(int x = 0; x < this.letras_reveladas.length; x++) {
 				
 					if(letras_palavra[i].equals(this.letras_reveladas[x])) {
 						
-						this.confirm = true;
-						System.out.println("CONFIRMOU");
+						confirm = true;
 						break;
 						}
-				}
-					//System.out.println("oiii");
+				
 				}	
 				
-			if(this.confirm == false) {
-				System.out.println("FALSEOU");
+			if(confirm == false) {
 				letras_palavra[i] = "*";
 			}
 			
-			}
+		}
 		
 		String resultado_final = Arrays.toString(letras_palavra);
 		resultado_final = resultado_final.replace(",", " ");
 		resultado_final = resultado_final.replace("[", " ");
 		resultado_final = resultado_final.replace("]", " ");
 		
-		
 		return resultado_final;			
 				
-			}
+	}
 		
-		
-		
-	   /*
-	   String[] letras = palavra.split(""); //separa todas as letras da palavra
-	   //String palavra2 = palavra1.replace(letra, "-"); //produz nova string
-	   for(String i: this.letras_reveladas) {
-		   		
-			}
-	   return "oi";*/
    
     public String getDica() {
     	return this.dicas[this.indice];
@@ -157,7 +140,10 @@ public class JogoDaForca {
 
 
     public String getPenalidade() {
-    	return "Eaeeeee";
+    	if(this.erros == 6) {
+    		return "Forca";
+    	};
+    	return this.penalidades[this.erros - 1];
     }
 
     public int getAcertos() {
@@ -169,9 +155,16 @@ public class JogoDaForca {
     }
 
     public String getResultado() {
-    	return "Ola";
+    	
+    	String result = "VocÃª foi inforcado";
+		
+		if(this.acertos > this.erros) {
+			result = "VocÃª ganhou";
+		}
+		
+		return result;
     }
-	}
+}
 	
 	
 
@@ -180,22 +173,22 @@ public class JogoDaForca {
 1. Acessar cada letra da palavra:
 String letra;
 for(int i=0 ; i<palavra.length(); i++) {
-letra = palavra.substring(i, i+1); //obtém a letra da posição i
+letra = palavra.substring(i, i+1); //obtÃ©m a letra da posiÃ§Ã£o i
 System.out.println(letra);
 }
-2. Substituir todas as ocorrências da letra por ”-”:
-String palavra2 = palavra1.replace(letra, “-”); //produz nova string
+2. Substituir todas as ocorrÃªncias da letra por â€-â€:
+String palavra2 = palavra1.replace(letra, â€œ-â€); //produz nova string
 
 3. Obter um array com cada letra da palavra:
-String[] letras = palavra.split(“”); //separa todas as letras da palavra
+String[] letras = palavra.split(â€œâ€); //separa todas as letras da palavra
 
 4. Clonar uma palavra:
-String palavra1 = “...” ;
-String palavra2 = new String(palavra1); // palavra2 é o clone da palavra1
+String palavra1 = â€œ...â€ ;
+String palavra2 = new String(palavra1); // palavra2 Ã© o clone da palavra1
 
-5. Clonar uma palavra para maiúsculas:
-String palavra1 = “...” ;
-String palavra2 = palavra1.toUpperCase(); //palavra2 recebe nova string maiúscula
+5. Clonar uma palavra para maiÃºsculas:
+String palavra1 = â€œ...â€ ;
+String palavra2 = palavra1.toUpperCase(); //palavra2 recebe nova string maiÃºscula
 */
 
 
