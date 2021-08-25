@@ -1,3 +1,5 @@
+/* GRUPO -> Luís Henrique Ferreira Freire (20201370005) e Cristopher Silva de Sousa (20201370024) */
+
 package jogodaforca;
 import java.io.File;
 import java.io.FileNotFoundException;  // Import this class to handle errors
