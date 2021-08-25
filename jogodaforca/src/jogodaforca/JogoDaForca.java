@@ -20,14 +20,14 @@ public class JogoDaForca {
 	
 	
 	public JogoDaForca(String nomearquivo) {
-		this.N = 0;
+		int i = 0;
 		File ab  = new File(nomearquivo);
         try{
              Scanner arq = new Scanner(ab);
              String linha;
              String work;
              String dic;
-             int i = 0;
+             
              while (arq.hasNextLine()) {
                     linha = arq.nextLine();
                     String line[] = linha.split(";");
@@ -38,14 +38,15 @@ public class JogoDaForca {
                     this.dicas[i] = dic;                  
                                     
                     i += 1;
-                
+                    
             }
+             
                 arq.close();
             } catch(FileNotFoundException e) {
                   System.out.println("An error occurred.");
                   e.printStackTrace();
             }
-    
+        this.N = i;
 	}
 		
 		
@@ -62,6 +63,7 @@ public class JogoDaForca {
     public boolean adivinhou(String letra) {
     
     	boolean confirm_repeticao = false;
+    	
     	if (this.palavra.contains(letra.toUpperCase())) {
     		
     		for(int x = 0; x < this.letras_reveladas.length; x++) {
@@ -166,3 +168,30 @@ public class JogoDaForca {
     }
 }
 	
+	
+
+
+/*
+1. Acessar cada letra da palavra:
+String letra;
+for(int i=0 ; i<palavra.length(); i++) {
+letra = palavra.substring(i, i+1); //obtém a letra da posição i
+System.out.println(letra);
+}
+2. Substituir todas as ocorrências da letra por ”-”:
+String palavra2 = palavra1.replace(letra, “-”); //produz nova string
+
+3. Obter um array com cada letra da palavra:
+String[] letras = palavra.split(“”); //separa todas as letras da palavra
+
+4. Clonar uma palavra:
+String palavra1 = “...” ;
+String palavra2 = new String(palavra1); // palavra2 é o clone da palavra1
+
+5. Clonar uma palavra para maiúsculas:
+String palavra1 = “...” ;
+String palavra2 = palavra1.toUpperCase(); //palavra2 recebe nova string maiúscula
+*/
+
+
+// File myObj = new File("filename.txt"); // Specify the filename
