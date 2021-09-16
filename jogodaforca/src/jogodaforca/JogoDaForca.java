@@ -1,4 +1,4 @@
-/* GRUPO -> Luís Henrique Ferreira Freire (20201370005) e Cristopher Silva de Sousa (20201370024) */
+/* GRUPO -> Luís Henrique Ferreira Freire e Cristopher Silva de Sousa  */
 
 package jogodaforca;
 import java.io.File;
